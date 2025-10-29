@@ -1,0 +1,47 @@
+#
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+
+"VSL: Very Simple Lane"
+lane :simple do |options|
+	show_lane_context()
+	show_options()
+	show_git_info()
+	show_ui_calls()
+end
+
+lane :show_lane_context do |options|
+	laneName = lane_context[SharedValues::LANE_NAME]
+	UI.message("Print console message - #{laneName}")
+end
+
+lane :show_options do |options|
+	UI.important "Options is empty!" if options.empty?
+	UI.message "Options: #{options}" unless options.empty?
+end
+
+lane :show_environment do |options|
+	acmeApiKey = ENV["ACME_API_KEY"]
+	if acmeApiKey.nil? || acmeApiKey.empty?
+		UI.error "Missing ACME API Key!"
+	else
+		UI.message "ACME Api Key: #{acmeApiKey}"
+	end
+end
+
+lane :show_git_info do |options|
+	branch = git_branch()
+	UI.message("Git Branch = #{branch}")
+
+	lastCommit = last_git_commit()
+	UI.message("Last Git Commit = #{lastCommit}")
+
+	number_of_commits()
+end
+
+lane :show_ui_calls do |options|
+	UI.message "Hello from my_new_action."
+	UI.important "Warning: This is a new action."
+	UI.error "Something unexpected happened in my_new_action. Attempting to continue..."
+end
