@@ -1,0 +1,19 @@
+# Github action
+
+name: Main
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  main:
+    name: Main
+    uses: ./.github/workflows/fastlane.yaml
+    with:
+      configuration: 'beta'
+    secrets:
+      acme_api_key: ${{ secrets.ACME_API_KEY }}

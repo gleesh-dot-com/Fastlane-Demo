@@ -7,6 +7,7 @@
 lane :simple do |options|
 	show_lane_context()
 	show_options()
+	show_environment()
 	show_git_info()
 	show_ui_calls()
 end

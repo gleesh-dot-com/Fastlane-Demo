@@ -1,0 +1,30 @@
+name: Fastlane
+
+on:
+  workflow_call:
+    inputs:
+      configuration:
+        required: true
+        type: string
+    secrets:
+      acme_api_key:
+
+jobs:
+  fastlane:
+    name: Fastlane
+    runs-on: ubuntu-latest
+
+    env:
+      ACME_API_KEY: ${{ secrets.acme_api_key }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Run fastlane
+        run: bundle exec fastlane simple configuration:${{ inputs.configuration }}
